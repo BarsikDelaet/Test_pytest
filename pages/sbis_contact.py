@@ -1,9 +1,10 @@
 import time
 
-from pages.base import BasePage
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+
+from pages.base import BasePage
 
 
 class SbisContactsPage(BasePage):
@@ -12,19 +13,22 @@ class SbisContactsPage(BasePage):
     banner_tensor = (By.CLASS_NAME, 'sbisru-Contacts__logo-tensor')
 
     region_chooser = (By.CLASS_NAME, 'sbis_ru-Region-Chooser__text.sbis_ru-link')
-    your_region = 'Ярославская обл.'
-    new_region = 'Камчатский край'
     partners_list = (By.NAME, 'itemsContainer')
     window_choice_region = (By.NAME, 'dialog')
     desired_region = (By.CSS_SELECTOR, '[title="Камчатский край"].sbis_ru-link')
-    # desired_region = (By.XPATH, '//*[contains(text(), "41 Камчатский край")]/..')
+    new_partners_list = (By.XPATH, '//*[@name="itemsContainer"]//*[@title="СБИС - Камчатка"]')
+
+    your_region = 'Ярославская обл.'
+    new_region = 'Камчатский край'
     new_url = 'https://sbis.ru/contacts/41-kamchatskij-kraj?tab=clients'
     new_title_text = 'СБИС Контакты — Камчатский край'
-    new_partners_list = (By.XPATH, '//*[@name="itemsContainer"]//*[@title="СБИС - Камчатка"]')
+    # desired_region = (By.XPATH, '//*[contains(text(), "41 Камчатский край")]/..')
+
+
 
     def __init__(self, browser):
         super().__init__(browser)
-        self.wait = WebDriverWait(browser, 10)
+        self.wait = WebDriverWait(browser, 10, poll_frequency=1)
 
     def check_sbis_contacts(self):
         self.wait.until(EC.url_changes(self.url_sbis_contacts))

@@ -1,8 +1,8 @@
-import time
-from pages.base import BasePage
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+
+from pages.base import BasePage
 
 
 class SbisMainPage(BasePage):

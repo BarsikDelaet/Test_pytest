@@ -1,9 +1,8 @@
-from pages.sbis_main import SbisMainPage
-from pages.sbis_contact import SbisContactsPage
 from pages.tensor import TensorPage
+from pages.sbis_main import SbisMainPage
 from pages.tensor_about import TensorAboutPage
+from pages.sbis_contact import SbisContactsPage
 from pages.sbis_download import SbisDownloadPage
-from time import sleep
 
 
 def test_01(browser):

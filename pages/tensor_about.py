@@ -1,5 +1,6 @@
-from pages.base import BasePage
 from selenium.webdriver.common.by import By
+
+from pages.base import BasePage
 
 
 class TensorAboutPage(BasePage):

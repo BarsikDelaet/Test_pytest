@@ -1,6 +1,7 @@
+import os
+
 from selenium import webdriver
 import pytest
-import os
 
 
 @pytest.fixture()
