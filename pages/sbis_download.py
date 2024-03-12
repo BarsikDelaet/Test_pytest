@@ -1,5 +1,4 @@
 import os
-import time
 
 from selenium.webdriver.common.by import By
 from pages.base import BasePage
@@ -38,7 +37,7 @@ class SbisDownloadPage(BasePage):
         size_file = float(download_button.text.split(' ')[-2])
         file_list = os.listdir(os.getcwd())
         download_button.click()
-        self.check_file_download(file_list)
+        assert self.check_file_download(), 'Файл не скачался'
         return size_file
 
     def check_file_size(self, size_file):

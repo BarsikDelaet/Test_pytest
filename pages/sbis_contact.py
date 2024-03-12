@@ -72,9 +72,10 @@ class SbisContactsPage(BasePage):
         self.check_change_text_element(current_region, self.your_region)
 
     def check_new_partners_list(self):
+        """ Проверка наличия списка партнеров """
         assert self.find(self.new_partners_list).is_displayed(), 'Список партнеров не поменялся'
 
     def check_url_title(self):
-        assert self.browser.current_url == self.new_url, 'Url не поменялся предполагаемый'
-        assert self.browser.title == self.new_title_text, f'Title не поменялся на предполагаемый, {self.browser.title}'
-
+        """ Проверка url и title на соответствующий выбранному региону """
+        assert self.browser.current_url == self.new_url, 'Url не поменялся на предполагаемый'
+        assert self.browser.title == self.new_title_text, 'Title не поменялся на предполагаемый'

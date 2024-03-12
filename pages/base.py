@@ -47,11 +47,16 @@ class BasePage(object):
         self.wait.until(lambda d: element.text != old_text,
                         'Регион не поменялся')
 
-    def check_file_download(self, file_list):
+    def check_file_download(self):
         """ Проверяет что файл скачан в папку с тестом. """
         download = False
+        max_time = 10
+        time_count = 0
         path = os.getcwd()
-        while not download:
+        while not download or max_time != time_count:
             if 'sbisplugin-setup-web.exe' in os.listdir(path):
                 download = True
+                return True
             time.sleep(1)
+            time_count += 1
+        return False
