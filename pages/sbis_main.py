@@ -6,6 +6,7 @@ from pages.base import BasePage
 
 
 class SbisMainPage(BasePage):
+    """ Все взаимодействия и локаторы страницу https://Sbis.ru """
 
     contact_button = (By.LINK_TEXT, 'Контакты')
 
@@ -14,13 +15,18 @@ class SbisMainPage(BasePage):
 
     def __init__(self, browser):
         super().__init__(browser)
-        self.wait = WebDriverWait(browser, 10, poll_frequency=1)
 
     def open_contact(self):
-        self.wait.until(EC.visibility_of_element_located(self.contact_button)).click()
-
+        """ Находит и нажимает кнопку Контакты. """
+        contact_button = self.wait_enabled_element(self.contact_button, 'Кнопка "Контакты не найдена"')
+        contact_button.click()
+ 
     def open_sbis_download(self):
-        sbis_footer = self.wait.until(EC.presence_of_element_located(self.sbis_footer))
+        """ Находит раздел Footer, спускается до него.
+        Ищет кнопку "Скачать локальные версии" и нажимает. """
+        sbis_footer = self.wait_displayed_element(self.sbis_footer, 'Раздел "Footer" не обнаружился')
         self.browser.execute_script("arguments[0].scrollIntoView();", sbis_footer)
 
-        self.wait.until(EC.element_to_be_clickable(self.sbis_download)).click()
+        sbis_download = (self.wait_enabled_element(self.sbis_download,
+                                                   'Кнопка "Скачать локальные версии" не найдена'))
+        sbis_download.click()

@@ -54,7 +54,7 @@ def test_02(browser):
     sbis_contact.check_sbis_contacts()
 
     # Проверить регион определения
-    # sbis_contact.check_home_region()
+    sbis_contact.check_home_region()
 
     # Проверить наличие списка партнеров
     sbis_contact.check_list_partners()
@@ -83,13 +83,14 @@ def test_03(browser):
 
     sbis_download = SbisDownloadPage(browser)
 
+    # Проверить переход на страницу "Скачать"
+    sbis_download.check_sbis_download()
+
     # Открыть раздел "СБИС Плагины"
     sbis_download.choice_sbis_plugin()
 
-    # Скачать СБИС для Windows в папку с тестом
-    sbis_download.download_file()
-
-    # Проверить что плагин скачался
+    # Скачать СБИС для Windows в папку с тестом и проверяем что он скачался
+    size_file = sbis_download.download_file()
 
     # Сравнить размер скаченного файла с указанным на сайте
-    sbis_download.check_file_downloads()
+    sbis_download.check_file_size(size_file)

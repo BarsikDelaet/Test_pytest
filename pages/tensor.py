@@ -4,26 +4,30 @@ from pages.base import BasePage
 
 
 class TensorPage(BasePage):
-    
+    """ Все взаимодействия и селекторы страницы https://Tensor.ru """
+
     tensor_url = "https://tensor.ru/"
     block_power_in_people = (By.CLASS_NAME, 'tensor_ru-Index__block4-content')
-    about_button = (By.CSS_SELECTOR, 'a.tensor_ru-Index__link.tensor_ru-link')
+    about_button = (By.CSS_SELECTOR, 'div.tensor_ru-Index__block4-content a')
     
     def __init__(self, browser):
         super().__init__(browser)
 
     def check_link_tensor(self):
-        current_page = self.browser.current_url
-        assert self.tensor_url == current_page, 'Страница Тензор не открыта'
+        """ Проверка перехода на страницу Тензор """
+        self.wait_url_is_open(self.browser.current_url, 'Страница Тензор не открыта')
 
     def check_block_power_in_people(self):
-        block_power_in_people = self.find(self.block_power_in_people)
-        assert block_power_in_people.is_displayed(), f'Блок "Сила в людях" не найден, {block_power_in_people}'
+        """ Проверка наличия блока "Сила в людях".
+        Скрол до этого блока."""
+        block_power_in_people = self.wait_displayed_element(self.block_power_in_people,
+                                                            'Блок "Сила в людях" не найден')
+        self.browser.execute_script("arguments[0].scrollIntoView();", block_power_in_people)
 
     def open_tensor_about(self):
-        button_about = self.find_list(self.about_button)[1]
-        assert button_about.is_displayed(), 'Кнопка "Подробнее" не найдена'
-        self.browser.execute_script("arguments[0].scrollIntoView();", button_about)
+        """ Поиск кнопки "Подробнее" блока "Сила в людях" и нажатие по ней. """
+        button_about = self.wait_enabled_element(self.about_button,
+                                                 'Кнопка "Подробнее" не найдена')
         button_about.click()
 
 

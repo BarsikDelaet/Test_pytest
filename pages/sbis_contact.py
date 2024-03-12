@@ -1,13 +1,12 @@
 import time
 
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 
 from pages.base import BasePage
 
 
 class SbisContactsPage(BasePage):
+    """ Все взаимодействия и локаторы страницы https://Sbis.ru/contacts """
 
     url_sbis_contacts = "https://sbis.ru/contacts"
     banner_tensor = (By.CLASS_NAME, 'sbisru-Contacts__logo-tensor')
@@ -22,49 +21,55 @@ class SbisContactsPage(BasePage):
     new_region = 'Камчатский край'
     new_url = 'https://sbis.ru/contacts/41-kamchatskij-kraj?tab=clients'
     new_title_text = 'СБИС Контакты — Камчатский край'
-    # desired_region = (By.XPATH, '//*[contains(text(), "41 Камчатский край")]/..')
-
-
 
     def __init__(self, browser):
         super().__init__(browser)
-        self.wait = WebDriverWait(browser, 10, poll_frequency=1)
 
     def check_sbis_contacts(self):
-        self.wait.until(EC.url_changes(self.url_sbis_contacts))
-        assert self.url_sbis_contacts in self.browser.current_url, 'Сбис раздел "Контакты" не открылся'
+        """ Проверяет что раздел Sbis.ru/contacts открылся. """
+        self.wait_url_is_open(self.url_sbis_contacts, 'Сбис раздел "Контакты" не открылся')
 
     def search_banner_tensor_and_click(self):
-        banner_tensor = self.find(self.banner_tensor)
-        assert banner_tensor.is_displayed(), 'Банер "Тензор" не найден'
+        """ Поиск банера Тензор и нажатие на него.
+        Возвращаем последнее открывшуюся вкладку. """
+        banner_tensor = self.wait_enabled_element(self.banner_tensor, 'Банер "Тензор" не найден')
         banner_tensor.click()
+
         return self.browser.window_handles[-1]
 
     def switch_to_tensor(self, window):
+        """ Переход на новую вкладку Тензор. """
         self.browser.switch_to.window(window)
 
     def check_home_region(self):
-        current_region = self.find(self.region_chooser).text
+        """ Проверяем определившейся регион. """
+        current_region = self.wait_displayed_element(self.region_chooser,
+                                                     'Кнопка текущего региона не найдена').text
         assert current_region == self.your_region, 'Определился неверный регион'
 
     def check_list_partners(self):
-        assert self.find(self.partners_list).is_displayed, 'Список партнеров не найде'
+        """ Проверяет наличие раздела списков партнеров. """
+        self.wait_displayed_element(self.partners_list,
+                                    'Список партнеров не найде')
 
     def open_window_choice_region(self):
+        """ Открывает окно выбора регионов. """
         self.find(self.region_chooser).click()
         window_choice_region = self.find(self.window_choice_region)
         assert window_choice_region.is_displayed(), 'Окно выбора региона не открылось'
 
     def choice_other_region(self):
-        desired_region = self.find(self.desired_region)
-        assert desired_region.is_displayed(), 'Кнопка "Камчатский край" не найдена'
-        time.sleep(1)
+        """ Находит кнопку нужного региона и переключает на него.  """
+        desired_region = self.wait_enabled_element(self.desired_region,
+                                                   'Кнопка "Камчатский край" не найдена')
+        self.move_to_element(desired_region)
         desired_region.click()
-        time.sleep(1)
 
     def check_new_region(self):
-        current_region = self.find(self.region_chooser).text
-        assert current_region == self.new_region, f'Определился неверный регион'
+        """ Проверят что регион поменялся на новый. """
+        self.wait_displayed_element(self.region_chooser, 'Регион не виден')
+        current_region = self.find(self.region_chooser)
+        self.check_change_text_element(current_region, self.your_region)
 
     def check_new_partners_list(self):
         assert self.find(self.new_partners_list).is_displayed(), 'Список партнеров не поменялся'

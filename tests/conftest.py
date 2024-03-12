@@ -6,6 +6,7 @@ import pytest
 
 @pytest.fixture()
 def browser():
+    # SetUp
     options = webdriver.ChromeOptions()
     prefs = {
         'download.default_directory': f'{os.getcwd()}',
