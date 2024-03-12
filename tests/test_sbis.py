@@ -1,3 +1,5 @@
+from loguru import logger
+
 from pages.tensor import TensorPage
 from pages.sbis_main import SbisMainPage
 from pages.tensor_about import TensorAboutPage
@@ -6,6 +8,8 @@ from pages.sbis_download import SbisDownloadPage
 
 
 def test_01(browser):
+
+    logger.info("_.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-.\nЗапуск теста 01")
 
     sbis_main = SbisMainPage(browser)
 
@@ -46,7 +50,9 @@ def test_01(browser):
 
 def test_02(browser):
 
-    your_region = 'г. Санкт-Петербург'
+    logger.info("_.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-.\nЗапуск теста 02")
+
+    your_region = 'Ярославская обл.'
     new_region = 'Камчатский край'
 
     new_url = 'https://sbis.ru/contacts/41-kamchatskij-kraj?tab=clients'
@@ -63,7 +69,7 @@ def test_02(browser):
     sbis_contact.check_home_region(your_region)
 
     # Проверить наличие списка партнеров
-    sbis_contact.check_list_partners()
+    old_partners = sbis_contact.check_list_partners()
 
     # Изменить регион на Камчатский край
     sbis_contact.open_window_choice_region()
@@ -73,13 +79,15 @@ def test_02(browser):
     sbis_contact.check_new_region(new_region)
 
     # Список партнеров изменился
-    sbis_contact.check_new_partners_list()
+    sbis_contact.check_new_partners_list(old_partners)
 
     # Изменился url и title
     sbis_contact.check_url_title(new_url, new_title_text)
 
 
 def test_03(browser):
+
+    logger.info("_.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-.\nЗапуск теста 03")
 
     name_plugin_file = 'sbisplugin-setup-web.exe'
 

@@ -1,12 +1,15 @@
 import os
 
 from selenium import webdriver
+from loguru import logger
 import pytest
 
 
 @pytest.fixture()
 def browser():
     # SetUp
+    logger.add("info_logging.log",
+               format="{time:DD-MM-YYYY HH:mm:ss}| {level: <5} | {name}:{function}: {line} - {message}")
     options = webdriver.ChromeOptions()
     prefs = {
         'download.default_directory': f'{os.getcwd()}',
@@ -19,7 +22,7 @@ def browser():
     chrom_browser = webdriver.Chrome(options=options)
     chrom_browser.maximize_window()
     chrom_browser.implicitly_wait(10)
-
+    logger.info("Тест запускается")
     chrom_browser.get(sbis_url)
 
     yield chrom_browser
