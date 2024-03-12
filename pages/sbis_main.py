@@ -16,7 +16,9 @@ class SbisMainPage(BasePage):
 
     def open_contact(self):
         """ Находит и нажимает кнопку Контакты. """
-        contact_button = self.wait_enabled_element(self.contact_button, 'Кнопка "Контакты не найдена"')
+        contact_button = self.wait_displayed_element(self.contact_button,
+                                                     'Кнопка "Контакты не найдена"')
+        self.move_to_element(contact_button)
         contact_button.click()
  
     def open_sbis_download(self):

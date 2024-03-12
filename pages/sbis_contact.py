@@ -1,5 +1,3 @@
-import time
-
 from selenium.webdriver.common.by import By
 
 from pages.base import BasePage
@@ -17,11 +15,6 @@ class SbisContactsPage(BasePage):
     desired_region = (By.CSS_SELECTOR, '[title="Камчатский край"].sbis_ru-link')
     new_partners_list = (By.XPATH, '//*[@name="itemsContainer"]//*[@title="СБИС - Камчатка"]')
 
-    your_region = 'Ярославская обл.'
-    new_region = 'Камчатский край'
-    new_url = 'https://sbis.ru/contacts/41-kamchatskij-kraj?tab=clients'
-    new_title_text = 'СБИС Контакты — Камчатский край'
-
     def __init__(self, browser):
         super().__init__(browser)
 
@@ -32,7 +25,8 @@ class SbisContactsPage(BasePage):
     def search_banner_tensor_and_click(self):
         """ Поиск банера Тензор и нажатие на него.
         Возвращаем последнее открывшуюся вкладку. """
-        banner_tensor = self.wait_enabled_element(self.banner_tensor, 'Банер "Тензор" не найден')
+        banner_tensor = self.wait_displayed_element(self.banner_tensor,
+                                                    'Банер "Тензор" не найден')
         banner_tensor.click()
 
         return self.browser.window_handles[-1]
@@ -41,11 +35,11 @@ class SbisContactsPage(BasePage):
         """ Переход на новую вкладку Тензор. """
         self.browser.switch_to.window(window)
 
-    def check_home_region(self):
-        """ Проверяем определившейся регион. """
+    def check_home_region(self, your_region):
+        """ Проверяет определившейся регион. """
         current_region = self.wait_displayed_element(self.region_chooser,
                                                      'Кнопка текущего региона не найдена').text
-        assert current_region == self.your_region, 'Определился неверный регион'
+        assert current_region == your_region, 'Определился неверный регион'
 
     def check_list_partners(self):
         """ Проверяет наличие раздела списков партнеров. """
@@ -54,9 +48,11 @@ class SbisContactsPage(BasePage):
 
     def open_window_choice_region(self):
         """ Открывает окно выбора регионов. """
-        self.find(self.region_chooser).click()
-        window_choice_region = self.find(self.window_choice_region)
-        assert window_choice_region.is_displayed(), 'Окно выбора региона не открылось'
+        region_chooser = self.wait_enabled_element(self.region_chooser,
+                                                   'Кнопка выбора регионов не найдена')
+        region_chooser.click()
+        self.wait_displayed_element(self.window_choice_region,
+                                    'Окно выбора региона не открылось')
 
     def choice_other_region(self):
         """ Находит кнопку нужного региона и переключает на него.  """
@@ -65,17 +61,21 @@ class SbisContactsPage(BasePage):
         self.move_to_element(desired_region)
         desired_region.click()
 
-    def check_new_region(self):
+    def check_new_region(self, new_region):
         """ Проверят что регион поменялся на новый. """
-        self.wait_displayed_element(self.region_chooser, 'Регион не виден')
+        self.wait_displayed_element(self.region_chooser,
+                                    'Регион не виден')
         current_region = self.find(self.region_chooser)
-        self.check_change_text_element(current_region, self.your_region)
+        self.wait_change_text_element(current_region, new_region, 'Регион не поменялся')
 
     def check_new_partners_list(self):
-        """ Проверка наличия списка партнеров """
-        assert self.find(self.new_partners_list).is_displayed(), 'Список партнеров не поменялся'
+        """ Проверяет наличия списка партнеров """
+        self.wait_displayed_element(self.new_partners_list,
+                                    'Список партнеров не поменялся')
 
-    def check_url_title(self):
-        """ Проверка url и title на соответствующий выбранному региону """
-        assert self.browser.current_url == self.new_url, 'Url не поменялся на предполагаемый'
-        assert self.browser.title == self.new_title_text, 'Title не поменялся на предполагаемый'
+    def check_url_title(self, new_url, new_title_text):
+        """ Проверят url и title на соответствующий выбранному региону """
+        self.wait_url_is_open(new_url,
+                              'Url не поменялся на предполагаемый')
+        self.wait_title_is_open(new_title_text,
+                                'Title не поменялся на предполагаемый')

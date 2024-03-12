@@ -23,7 +23,7 @@ def browser():
     chrom_browser.get(sbis_url)
 
     yield chrom_browser
-    for window in chrom_browser.window_handles:
-        chrom_browser.switch_to.window(window)
-        chrom_browser.close()
+    # for window in chrom_browser.window_handles:
+    #     chrom_browser.switch_to.window(window)
+    #     chrom_browser.close()
     chrom_browser.quit()

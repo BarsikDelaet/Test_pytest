@@ -46,6 +46,12 @@ def test_01(browser):
 
 def test_02(browser):
 
+    your_region = 'г. Санкт-Петербург'
+    new_region = 'Камчатский край'
+
+    new_url = 'https://sbis.ru/contacts/41-kamchatskij-kraj?tab=clients'
+    new_title_text = 'СБИС Контакты — Камчатский край'
+
     sbis_main = SbisMainPage(browser)
     # Зайти на Sbis.ru/contacts.
     sbis_main.open_contact()
@@ -54,7 +60,7 @@ def test_02(browser):
     sbis_contact.check_sbis_contacts()
 
     # Проверить регион определения
-    sbis_contact.check_home_region()
+    sbis_contact.check_home_region(your_region)
 
     # Проверить наличие списка партнеров
     sbis_contact.check_list_partners()
@@ -64,16 +70,18 @@ def test_02(browser):
     sbis_contact.choice_other_region()
 
     # Проверить что подставился верный регион
-    sbis_contact.check_new_region()
+    sbis_contact.check_new_region(new_region)
 
     # Список партнеров изменился
     sbis_contact.check_new_partners_list()
 
     # Изменился url и title
-    sbis_contact.check_url_title()
+    sbis_contact.check_url_title(new_url, new_title_text)
 
 
 def test_03(browser):
+
+    name_plugin_file = 'sbisplugin-setup-web.exe'
 
     # Зайти на Sbis.ru
     sbis_main = SbisMainPage(browser)
@@ -90,7 +98,7 @@ def test_03(browser):
     sbis_download.choice_sbis_plugin()
 
     # Скачать СБИС для Windows в папку с тестом и проверяем что он скачался
-    size_file = sbis_download.download_file()
+    size_file = sbis_download.download_file(name_plugin_file)
 
     # Сравнить размер скаченного файла с указанным на сайте
-    sbis_download.check_file_size(size_file)
+    sbis_download.check_file_size(size_file, name_plugin_file)

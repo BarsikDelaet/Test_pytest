@@ -14,19 +14,19 @@ class TensorAboutPage(BasePage):
         super().__init__(browser)
 
     def check_tensor_about(self):
-        """ Проверят открытие страницы "https://tensor.ru/about" """
+        """ Проверяет открытие страницы "https://tensor.ru/about" """
         self.wait_url_is_open(self.tensor_about_url,
                               'Раздел Тензор "О компании" не открылся')
 
     def check_block_working(self):
-        """ Проверка наличия блока "Работаем"
+        """ Проверяет наличия блока "Работаем"
         Скрол до него. """
         block_working = self.wait_displayed_element(self.block_working,
                                                     'Блок "Работаем" не найден')
         self.browser.execute_script("arguments[0].scrollIntoView();", block_working)
 
     def check_size_photo(self):
-        """ Проверка размерности фото раздела "Работаем"
+        """ Проверяет размерности фото раздела "Работаем"
         Ищем первое фото и берем его размеры.
         Поочередно сравниваем с другими фото."""
         self.wait_displayed_element(self.img_in_block_working,

@@ -14,11 +14,11 @@ class TensorPage(BasePage):
         super().__init__(browser)
 
     def check_link_tensor(self):
-        """ Проверка перехода на страницу Тензор """
+        """ Проверяет переход на страницу Тензор """
         self.wait_url_is_open(self.browser.current_url, 'Страница Тензор не открыта')
 
     def check_block_power_in_people(self):
-        """ Проверка наличия блока "Сила в людях".
+        """ Проверяет наличия блока "Сила в людях".
         Скрол до этого блока."""
         block_power_in_people = self.wait_displayed_element(self.block_power_in_people,
                                                             'Блок "Сила в людях" не найден')
