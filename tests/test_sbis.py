@@ -9,17 +9,19 @@ from pages.sbis_download import SbisDownloadPage
 
 def test_01(browser):
 
-    logger.info("_.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-.\nЗапуск теста 01")
+    logger.info("""Запуск теста 01
+_.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-""")
 
     sbis_main = SbisMainPage(browser)
 
-    # Зайти на Sbis.ru/contacts.
+    # Зайти на Sbis.ru/contacts
     sbis_main.open_contact()
 
+    # Проверка перехода на страницу Sbis.ru/contacts
     sbis_contact = SbisContactsPage(browser)
     sbis_contact.check_sbis_contacts()
 
-    # Найти банер тензор и кликнуть по нему
+    # Найти банер Тензор и открыть новую вкладку Тензор
     next_window = sbis_contact.search_banner_tensor_and_click()
 
     # Переход на открывшееся окно
@@ -47,10 +49,13 @@ def test_01(browser):
     # Поверить размерность фото в разделе "Работаем"
     tensor_about.check_size_photo()
 
+    logger.info('Тест 01 полностью пройден')
+
 
 def test_02(browser):
 
-    logger.info("_.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-.\nЗапуск теста 02")
+    logger.info("""Запуск теста 02
+_.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-""")
 
     your_region = 'Ярославская обл.'
     new_region = 'Камчатский край'
@@ -59,9 +64,11 @@ def test_02(browser):
     new_title_text = 'СБИС Контакты — Камчатский край'
 
     sbis_main = SbisMainPage(browser)
+
     # Зайти на Sbis.ru/contacts.
     sbis_main.open_contact()
 
+    # Проверяем что зашли на Sbis.ru/contacts
     sbis_contact = SbisContactsPage(browser)
     sbis_contact.check_sbis_contacts()
 
@@ -81,13 +88,16 @@ def test_02(browser):
     # Список партнеров изменился
     sbis_contact.check_new_partners_list(old_partners)
 
-    # Изменился url и title
+    # Проверка изменения url и title
     sbis_contact.check_url_title(new_url, new_title_text)
+
+    logger.info('Тест 02 полностью пройден')
 
 
 def test_03(browser):
 
-    logger.info("_.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-.\nЗапуск теста 03")
+    logger.info("""Запуск теста 03
+_.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-""")
 
     name_plugin_file = 'sbisplugin-setup-web.exe'
 

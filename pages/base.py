@@ -1,8 +1,7 @@
 import os
 import time
 from datetime import datetime
-
-from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.common.action_chains import ActionChains
 
@@ -35,6 +34,10 @@ class BasePage(object):
         Возвращает элемент если он нашелся. """
         self.wait.until(lambda b: self.find(selector).is_enabled, message=msg_error)
         return self.find(selector)
+
+    def wait_element_invisibility(self, selector, msg_error):
+        """ Проверяет что элемент больше не виден """
+        self.wait.until(EC.invisibility_of_element_located(selector), message=msg_error)
 
     def wait_url_is_open(self, url, msg_error):
         """ Принимает проверяемый url и сообщение об ошибке.

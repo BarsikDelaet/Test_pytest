@@ -9,8 +9,8 @@ from pages.base import BasePage
 class SbisDownloadPage(BasePage):
     """ Все взаимодействия и локаторы страницы https://sbis.ru/download """
 
-    url_download_page = 'https://sbis.ru/download?tab=ereport&innerTab=ereport25'
-    sbis_plugin_button = (By.CSS_SELECTOR, '[data-id="plugin"] .controls-tabButton__overlay')
+    url_download_page = 'https://sbis.ru/download'
+    sbis_plugin_button = (By.CLASS_NAME, 'controls-TabButton__caption')
     download_button = (By.CSS_SELECTOR,
                        'div[data-for="plugin"] div.sbis_ru-DownloadNew-block.sbis_ru-DownloadNew-flex a')
 
@@ -21,6 +21,7 @@ class SbisDownloadPage(BasePage):
         """ Проверяет что перешли на нужную страницу """
         self.wait_url_is_open(self.url_download_page,
                               'Переход на страницу "Скачать" не произошел')
+
         logger.info("Раздел \"Скачать\" открылся")
 
     def choice_sbis_plugin(self):
@@ -28,8 +29,10 @@ class SbisDownloadPage(BasePage):
         sbis_plugin_button = self.wait_displayed_element(self.sbis_plugin_button,
                                                          'Кнопка "СБИС Плагины не найдена"')
         logger.info("Кнопка \"СБИС Плагины\" найдена")
+
         self.move_to_element(sbis_plugin_button)
         sbis_plugin_button.click()
+
         logger.info("Передвинули курсор на кнопку \"СБИС Плагины\" и нажали")
 
     def download_file(self, name_plugin_file):
@@ -39,8 +42,9 @@ class SbisDownloadPage(BasePage):
         download_button = self.wait_displayed_element(self.download_button,
                                                       'Кнопка "Скачать" не нашлась')
         logger.info("Кнопка \"Скачать\" найдена")
+
         size_file = float(download_button.text.split(' ')[-2])
-        logger.info(f"Вязи размер файла {size_file}")
+        logger.info(f"Размер файла:  {size_file}")
         download_button.click()
         logger.info("Кликнули по кнопке \"Скачать\"")
         assert self.check_file_download(name_plugin_file), 'Файл не скачался'

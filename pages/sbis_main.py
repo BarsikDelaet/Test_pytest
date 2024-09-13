@@ -18,10 +18,12 @@ class SbisMainPage(BasePage):
     def open_contact(self):
         """ Находит и нажимает кнопку Контакты. """
         contact_button = self.wait_displayed_element(self.contact_button,
-                                                     'Кнопка "Контакты не найдена"')
-        logger.info("Кнопка Контакты найдена.")
+                                                     'Кнопка "Контакты" не найдена')
+        logger.info("Кнопка Контакты найдена")
+
         self.move_to_element(contact_button)
         contact_button.click()
+
         logger.info("Нажали на кнопку Контакты")
  
     def open_sbis_download(self):
@@ -29,7 +31,9 @@ class SbisMainPage(BasePage):
         Ищет кнопку "Скачать локальные версии" и нажимает. """
         sbis_footer = self.wait_displayed_element(self.sbis_footer, 'Раздел "Footer" не обнаружился')
         self.browser.execute_script("arguments[0].scrollIntoView();", sbis_footer)
+
         logger.info("Раздел Footer найден, передвинулись к нему.")
+
         sbis_download = (self.wait_enabled_element(self.sbis_download,
                                                    'Кнопка "Скачать локальные версии" не найдена'))
         logger.info("Кнопка скачать найдена.")

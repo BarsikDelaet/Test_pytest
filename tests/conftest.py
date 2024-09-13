@@ -7,14 +7,13 @@ import pytest
 
 @pytest.fixture()
 def browser():
-    # SetUp
     logger.add("info_logging.log",
                format="{time:DD-MM-YYYY HH:mm:ss}| {level: <5} | {name}:{function}: {line} - {message}")
     options = webdriver.ChromeOptions()
     prefs = {
         'download.default_directory': f'{os.getcwd()}',
         'safebrowsing.enabled': True
-    }  #
+    }
     options.add_experimental_option("prefs", prefs)
 
     sbis_url = 'https://sbis.ru/'
@@ -22,7 +21,9 @@ def browser():
     chrom_browser = webdriver.Chrome(options=options)
     chrom_browser.maximize_window()
     chrom_browser.implicitly_wait(10)
+
     logger.info("Тест запускается")
+
     chrom_browser.get(sbis_url)
 
     yield chrom_browser
